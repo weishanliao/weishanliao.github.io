@@ -329,6 +329,104 @@
       display: block;
     }
 
+    .amazon-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .amazon-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .amazon-fallback {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .amazon-fallback a {
+      color: inherit;
+    }
+
+    .image-carousel {
+      position: relative;
+      width: 100%;
+      background: #e8e8e3;
+      overflow: hidden;
+    }
+
+    .image-carousel-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .image-carousel-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #e8e8e3;
+      cursor: pointer;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      color: #111;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .carousel-arrow:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.04);
+    }
+
+    .carousel-arrow.prev { left: 14px; }
+    .carousel-arrow.next { right: 14px; }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      padding: 12px 0;
+      background: #e8e8e3;
+    }
+
+    .carousel-dot {
+      width: 7px;
+      height: 7px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #aaa;
+      cursor: pointer;
+    }
+
+    .carousel-dot.active {
+      background: #111;
+      transform: scale(1.15);
+    }
+
     .youtube-fallback {
       position: relative;
       width: 100%;
@@ -581,6 +679,37 @@
             <span class="project-overlay-title">Drop Trivia</span>
           </button>
 
+          <button class="project-card" data-project-id="portfolio-12" onclick="openProject('portfolio-12')">
+            <div class="project-image">
+              <img
+                src="images/cocobus.jpg"
+                alt="Transforming School Time Bus"
+              >
+            </div>
+            <span class="project-overlay-title">Transforming School Time Bus</span>
+          </button>
+
+          <button class="project-card" data-project-id="portfolio-13" onclick="openProject('portfolio-13')">
+            <div class="project-image">
+              <img
+                src="images/peppabike.jpg"
+                alt="Ready, Pedal, Go Peppa"
+              >
+            </div>
+            <span class="project-overlay-title">Ready, Pedal, Go Peppa</span>
+          </button>
+
+          <button class="project-card" data-project-id="portfolio-14" onclick="openProject('portfolio-14')">
+            <div class="project-image">
+              <img
+                src="images/blooms.png"
+                alt="Blooms by Playdoh"
+              >
+            </div>
+            <span class="project-overlay-title">Blooms by Playdoh</span>
+          </button>
+
+
         </div>
       </section>
 
@@ -706,7 +835,19 @@
 
        For YouTube:
          "type": "youtube",
-         "src": "https://www.youtube.com/embed/VIDEO_ID"
+         "src": "https://www.youtube.com/watch?v=VIDEO_ID"
+
+       For Amazon Live:
+         "type": "amazon",
+         "src": "https://www.amazon.com/live/video/VIDEO_ID"
+
+       For an image-only project, add one or more image items:
+         { type: "image", src: "images/project-01.jpg", alt: "Project image 1" },
+         { type: "image", src: "images/project-02.jpg", alt: "Project image 2" }
+
+       If a project has multiple images, they automatically become a
+       clickable carousel with arrows and dots. One image stays as a
+       simple image.
 
        Put your own files into folders named "images" and "videos"
        next to this HTML file.
@@ -716,7 +857,7 @@
 
       "portfolio-1": {
         title: "Rubik's Pulse",
-        meta: "Created Created in collaboration with Spin Master",
+        meta: "Created in collaboration with Spin Master",
         description: "",
         media: [
           {
@@ -728,7 +869,7 @@
 
       "portfolio-2": {
         title: "Octoray Transforming Playset",
-        meta: "Created Created in collaboration with Moose Toys",
+        meta: "Created in collaboration with Moose Toys",
         description: "",
         media: [
           {
@@ -740,7 +881,7 @@
 
       "portfolio-3": {
         title: "Sky Trails",
-        meta: "Created Created in collaboration with Playmobil",
+        meta: "Created in collaboration with Playmobil",
         description: "",
         media: [
           {
@@ -752,7 +893,7 @@
 
       "portfolio-4": {
         title: "Mission Dragon",
-        meta: "Created Created in collaboration with Jumbo",
+        meta: "Created in collaboration with Jumbo",
         description: "",
         media: [
           {
@@ -764,7 +905,7 @@
 
       "portfolio-5": {
         title: "GO Tots Roll & Ride Bus",
-        meta: "Created Created in collaboration with Melissa and Doug",
+        meta: "Created in collaboration with Melissa and Doug",
         description: "",
         media: [
           {
@@ -776,7 +917,7 @@
 
       "portfolio-6": {
         title: "Tie-Dye Reveal Plush",
-        meta: "Created Created in collaboration with Mattel",
+        meta: "Created in collaboration with Mattel",
         description: "",
         media: [
           {
@@ -788,7 +929,7 @@
 
       "portfolio-7": {
         title: "Barbie Dreamcamper",
-        meta: "Created Created in collaboration with Mattel",
+        meta: "Created in collaboration with Mattel",
         description: "",
         media: [
           {
@@ -800,7 +941,7 @@
 
       "portfolio-8": {
         title: "Hatch & Gather Egg Farm",
-        meta: "Created Created in collaboration with Mattel",
+        meta: "Created in collaboration with Mattel",
         description: "",
         media: [
           {
@@ -812,7 +953,7 @@
 
       "portfolio-9": {
         title: "Carriage to castle",
-        meta: "Created Created in collaboration with Mattel",
+        meta: "Created in collaboration with Mattel",
         description: "",
         media: [
           {
@@ -824,7 +965,7 @@
 
       "portfolio-10": {
         title: "Sticker WOW",
-        meta: "Created Created in collaboration with Melissa and Doug",
+        meta: "Created in collaboration with Melissa and Doug",
         description: "",
         media: [
           {
@@ -836,12 +977,48 @@
 
       "portfolio-11": {
         title: "Drop Trivia",
-        meta: "Created Created in collaboration with Hasbro",
+        meta: "Created in collaboration with Hasbro",
         description: "",
         media: [
           {
             type: "youtube",
             src: "https://www.youtube.com/watch?v=XuOm-aseQSM"
+          }
+        ]
+      },
+
+      "portfolio-12": {
+        title: "Transforming School Time Bus",
+        meta: "Created in collaboration with Jazwares",
+        description: "",
+        media: [
+          {
+            type: "youtube",
+            src: "https://www.youtube.com/watch?v=EHe3N5GQhGw"
+          }
+        ]
+      },
+
+      "portfolio-13": {
+        title: "Ready, Pedal, Go Peppa",
+        meta: "Created in collaboration with Hasbro",
+        description: "",
+        media: [
+          {
+            type: "youtube",
+            src: "https://www.youtube.com/watch?v=PBPrJeXU-5c"
+          }
+        ]
+      },
+
+      "portfolio-14": {
+        title: "Blooms by Playdoh",
+        meta: "Created in collaboration with Hasbro",
+        description: "",
+        media: [
+          {
+            type: "amazon",
+            src: "https://www.amazon.com/live/video/0ee392aa8cb64fcebe34c2b399752dd9"
           }
         ]
       },
@@ -939,13 +1116,94 @@
       const mediaContainer = document.getElementById("detail-media");
       mediaContainer.innerHTML = "";
 
-      project.media.forEach(item => {
+      project.media.forEach((item, index) => {
 
         if (item.type === "image" && item.src) {
-          const image = document.createElement("img");
-          image.src = item.src;
-          image.alt = item.alt || "";
-          mediaContainer.appendChild(image);
+          // Consecutive image items become one carousel.
+          const previous = project.media[index - 1];
+          if (previous && previous.type === "image") return;
+
+          const images = [];
+          let cursor = index;
+          while (project.media[cursor] && project.media[cursor].type === "image" && project.media[cursor].src) {
+            images.push(project.media[cursor]);
+            cursor++;
+          }
+
+          if (images.length === 1) {
+            const image = document.createElement("img");
+            image.src = images[0].src;
+            image.alt = images[0].alt || "";
+            mediaContainer.appendChild(image);
+          } else {
+            const carousel = document.createElement("div");
+            carousel.className = "image-carousel";
+
+            const stage = document.createElement("div");
+            stage.className = "image-carousel-stage";
+
+            const image = document.createElement("img");
+            let current = 0;
+
+            const renderImage = () => {
+              image.src = images[current].src;
+              image.alt = images[current].alt || project.title + " image " + (current + 1);
+              dots.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === current));
+            };
+
+            const prev = document.createElement("button");
+            prev.className = "carousel-arrow prev";
+            prev.type = "button";
+            prev.setAttribute("aria-label", "Previous image");
+            prev.textContent = "‹";
+            prev.onclick = (event) => {
+              event.stopPropagation();
+              current = (current - 1 + images.length) % images.length;
+              renderImage();
+            };
+
+            const next = document.createElement("button");
+            next.className = "carousel-arrow next";
+            next.type = "button";
+            next.setAttribute("aria-label", "Next image");
+            next.textContent = "›";
+            next.onclick = (event) => {
+              event.stopPropagation();
+              current = (current + 1) % images.length;
+              renderImage();
+            };
+
+            image.onclick = () => {
+              current = (current + 1) % images.length;
+              renderImage();
+            };
+
+            stage.appendChild(image);
+            stage.appendChild(prev);
+            stage.appendChild(next);
+            carousel.appendChild(stage);
+
+            const dots = [];
+            const dotRow = document.createElement("div");
+            dotRow.className = "carousel-dots";
+            images.forEach((_, dotIndex) => {
+              const dot = document.createElement("button");
+              dot.type = "button";
+              dot.className = "carousel-dot";
+              dot.setAttribute("aria-label", "Show image " + (dotIndex + 1));
+              dot.onclick = (event) => {
+                event.stopPropagation();
+                current = dotIndex;
+                renderImage();
+              };
+              dots.push(dot);
+              dotRow.appendChild(dot);
+            });
+            carousel.appendChild(dotRow);
+
+            mediaContainer.appendChild(carousel);
+            renderImage();
+          }
         }
 
         if (item.type === "video" && item.src) {
@@ -1016,6 +1274,27 @@
             wrapper.appendChild(iframe);
             mediaContainer.appendChild(wrapper);
           }
+        }
+
+        if (item.type === "amazon" && item.src) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "amazon-wrapper";
+
+          const iframe = document.createElement("iframe");
+          iframe.src = item.src;
+          iframe.title = project.title + " Amazon Live video";
+          iframe.loading = "lazy";
+          iframe.allow = "autoplay; fullscreen; picture-in-picture";
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          iframe.allowFullscreen = true;
+
+          wrapper.appendChild(iframe);
+          mediaContainer.appendChild(wrapper);
+
+          const fallback = document.createElement("div");
+          fallback.className = "amazon-fallback";
+          fallback.innerHTML = 'If Amazon doesn\'t allow this video to play here, <a href="' + item.src + '" target="_blank" rel="noopener noreferrer">watch it on Amazon</a>.';
+          mediaContainer.appendChild(fallback);
         }
 
       });
