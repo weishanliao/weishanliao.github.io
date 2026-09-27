@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <meta name="description" content="Personal design portfolio">
+  <title>WEISHAN LIAO — PORTFOLIO</title>
+
+  <style>
+    /* =========================
+       EDITABLE SITE STYLES
+       ========================= */
+
+    :root {
+      --background: #f7f7f5;
+      --text: #111111;
+      --muted: #777777;
+      --border: #ddddda;
+      --card: #ffffff;
+      --max-width: 1400px;
+      --gap: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    img,
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
+    .site {
+      width: min(calc(100% - 40px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-button {
+      border: 0;
+      background: transparent;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .nav-button:hover,
+    .nav-button.active {
+      color: var(--text);
+    }
+
+    /* Pages */
+    .page {
+      display: none;
+      padding: 70px 0 100px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-intro {
+      max-width: 760px;
+      margin-bottom: 50px;
+    }
+
+    .page-intro h1 {
+      margin: 0 0 14px;
+      font-size: clamp(42px, 7vw, 84px);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .page-intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 620px;
+    }
+
+    /* Project grid */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+
+    .project-card {
+      position: relative;
+      z-index: 1;
+      border: 0;
+      padding: 0;
+      text-align: left;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .project-image {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #e8e8e3;
+      margin-bottom: 14px;
+    }
+
+    .project-image::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,.38); opacity:0; transition:opacity .3s ease; }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover .project-image img {
+      transform: scale(1.03);
+    }
+
+    .project-overlay-title { position:absolute; z-index:2; left:20px; right:20px; bottom:20px; color:white; font-size:18px; font-weight:600; opacity:0; transform:translateY(8px); transition:.3s ease; }
+    .project-card:hover .project-image::after, .project-card:hover .project-overlay-title { opacity:1; }
+    .project-card:hover .project-overlay-title { transform:translateY(0); }
+
+    .project-title {
+      margin: 0 0 4px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .project-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Contact page */
+    .contact-page {
+      max-width: 920px;
+      padding-top: 20px;
+    }
+
+    .contact-intro {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(32px, 4.5vw, 64px);
+      line-height: 1.06;
+      letter-spacing: -0.045em;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 42px;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid #cfcfca;
+      border-radius: 999px;
+      color: var(--text);
+      background: transparent;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .contact-link:hover {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+      transform: translateY(-2px);
+    }
+
+    .contact-link svg {
+      width: 19px;
+      height: 19px;
+      fill: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .contact-arrow {
+      font-size: 17px;
+      line-height: 1;
+      margin-left: 4px;
+    }
+
+    @media (max-width: 700px) {
+      .contact-page {
+        padding-top: 0;
+      }
+
+      .contact-intro {
+        font-size: clamp(30px, 8vw, 48px);
+      }
+
+      .contact-links {
+        margin-top: 30px;
+      }
+    }
+
+
+
+    /* About */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+    }
+
+    .about-content h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .about-copy {
+      font-size: clamp(24px, 3vw, 42px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    /* Project detail */
+    #project-detail {
+      display: none;
+      padding: 50px 0 100px;
+    }
+
+    #project-detail.active {
+      display: block;
+    }
+
+    .back-button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 45px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .back-button:hover {
+      color: var(--text);
+    }
+
+    .detail-layout { display:grid; grid-template-columns:minmax(260px,.78fr) minmax(0,1.75fr); gap:56px; align-items:start; }
+    .detail-header { position:sticky; top:30px; min-width:0; overflow-wrap:anywhere; }
+
+    .detail-header h1 {
+      margin: 0 0 12px;
+      font-size: clamp(40px, 4.8vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .detail-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .detail-media { display:grid; gap:12px; align-content:start; min-width:0; }
+
+    .detail-media img,
+    .detail-media video {
+      width: 100%;
+      background: #e8e8e3;
+    }
+
+    .youtube-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .youtube-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .youtube-fallback {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+      overflow: hidden;
+    }
+
+    .youtube-fallback a {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: white;
+      text-decoration: none;
+    }
+
+    .youtube-fallback img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.82;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .youtube-fallback a:hover img {
+      opacity: 0.65;
+      transform: scale(1.01);
+    }
+
+    .youtube-play {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 76px;
+      height: 54px;
+      border-radius: 14px;
+      background: #ff0033;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      padding-left: 3px;
+    }
+
+    .youtube-label {
+      position: absolute;
+      left: 24px;
+      bottom: 20px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .detail-description {
+      max-width: 760px;
+      margin: 45px 0;
+      font-size: 19px;
+    }
+
+    footer {
+      padding: 25px 0 40px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Mobile */
+    @media (max-width: 800px) {
+      .site {
+        width: min(calc(100% - 28px), var(--max-width));
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px 0;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .nav-button {
+        padding: 6px 0;
+      }
+
+      .page {
+        padding: 45px 0 70px;
+      }
+
+      .project-grid { grid-template-columns:1fr; gap:20px; }
+      .detail-layout { grid-template-columns:1fr; gap:30px; }
+      .detail-header { position:static; }
+
+      .about-content, .detail-layout { grid-template-columns:1fr; gap:25px; }
+      .detail-header { position:static; }
+
+      .detail-media { gap:14px; min-height:300px; }
+    }
+
+    @media (min-width: 801px) and (max-width: 1200px) {
+      .project-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site">
+
+    <!-- =========================
+         HEADER / NAVIGATION
+         ========================= -->
+    <header>
+      <!-- Change this to your name or studio name -->
+      <a class="logo" href="#" onclick="showPage('portfolio'); return false;">
+        WEISHAN LIAO
+      </a>
+
+      <nav aria-label="Main navigation">
+        <button class="nav-button active" data-page="portfolio">PORTFOLIO</button>
+        <button class="nav-button" data-page="research">RESEARCH &amp; PAST WORK</button>
+        <button class="nav-button" data-page="about">ABOUT</button>
+      </nav>
+    </header>
+
+    <main>
+
+      <!-- =========================
+           PORTFOLIO
+           ========================= -->
+      <section id="portfolio" class="page active">
+        <div class="page-intro">
+          <h1>PORTFOLIO</h1>
+        </div>
+
+        <div class="project-grid">
+
+          <!-- Copy/paste this card to add more projects -->
+          <button class="project-card" data-project-id="portfolio-1" onclick="openProject('portfolio-1')">
+            <div class="project-image">
+              <img
+                src="images/rubiks-pulse.jpg"
+                alt="Rubik\'s Pulse"
+              >
+            <span class="project-overlay-title">Rubik's Pulse</span>
+            </div>
+          </button>
+
+          <button class="project-card" data-project-id="portfolio-2" onclick="openProject('portfolio-2')">
+            <div class="project-image">
+              <img
+                src="images/octoray-transforming-playset.jpg"
+                alt="Octoray Transforming Playset"
+              >
+              <span class="project-overlay-title">Octoray Transforming Playset</span>
+            </div>
+          </button>
+
+          <button class="project-card" data-project-id="portfolio-3" onclick="openProject('portfolio-3')">
+            <div class="project-image">
+              <img
+                src="images/sky-trails.jpg"
+                alt="Sky Trails"
+              >
+            </div>
+            <span class="project-overlay-title">Sky Trails</span>
+          </button>
+
+        </div>
+      </section>
+
+
+      <!-- =========================
+           RESEARCH & PAST WORK
+           ========================= -->
+      <section id="research" class="page">
+        <div class="page-intro">
+          <h1>RESEARCH &amp; PAST WORK</h1>
+          <p>Research, writing, process documentation, and selected previous work.</p>
+        </div>
+
+        <div class="project-grid">
+
+          <button class="project-card" data-project-id="research-1" onclick="openProject('research-1')">
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80"
+                alt="Research project 01"
+              >
+            </div>
+            <span class="project-overlay-title">Research Project One</span>
+          </button>
+
+          <button class="project-card" data-project-id="research-2" onclick="openProject('research-2')">
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1200&q=80"
+                alt="Past work 01"
+              >
+            </div>
+            <span class="project-overlay-title">Past Work One</span>
+          </button>
+
+          <button class="project-card" data-project-id="research-3" onclick="openProject('research-3')">
+            <div class="project-image">
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
+                alt="Research project 02"
+              >
+            </div>
+            <span class="project-overlay-title">Research Project Two</span>
+          </button>
+
+        </div>
+      </section>
+
+
+      <!-- =========================
+           ABOUT
+           ========================= -->
+      <section id="about" class="page">
+        <div class="contact-page">
+          <p class="contact-intro">I'd love to chat! You can reach me on LinkedIn or email me.</p>
+
+          <div class="contact-links">
+            <a class="contact-link" href="https://www.linkedin.com/in/weishanliao"
+               target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.5 8.5H3.2V20h3.3V8.5ZM4.85 3A1.95 1.95 0 1 0 4.85 6.9 1.95 1.95 0 0 0 4.85 3ZM21 13.4c0-3.46-1.84-5.07-4.3-5.07-1.98 0-2.86 1.09-3.35 1.86V8.5H10V20h3.35v-6.2c0-1.63.31-3.21 2.33-3.21 1.99 0 2.02 1.87 2.02 3.32V20H21v-6.6Z"/>
+              </svg>
+              <span>LinkedIn</span>
+              <span class="contact-arrow">↗</span>
+            </a>
+
+            <a class="contact-link" href="mailto:weishanliao20@gmail.com"
+               aria-label="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.5 5.5h17A1.5 1.5 0 0 1 22 7v10a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 17V7a1.5 1.5 0 0 1 1.5-1.5Zm0 2.1 8.5 6.05 8.5-6.05V7l-8.5 6.05L3.5 7v.6Z"/>
+              </svg>
+              <span>Email</span>
+              <span class="contact-arrow">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           PROJECT DETAIL VIEW
+           ========================= -->
+      <section id="project-detail">
+
+        <button class="back-button" onclick="closeProject()">
+          ← Back
+        </button>
+
+        <div class="detail-layout">
+          <div class="detail-header">
+            <h1 id="detail-title"></h1>
+            <p id="detail-meta"></p>
+            
+          </div>
+          <div id="detail-media" class="detail-media"></div>
+        </div>
+        <div id="detail-project-grid"></div>
+
+      </section>
+
+    </main>
+
+    <footer>
+      © 2026 WEISHAN LIAO
+    </footer>
+  </div>
+
+
+  <script>
+    /* ==========================================================
+       PROJECT CONTENT
+       ----------------------------------------------------------
+       This is the easiest place to edit the individual projects.
+
+       For images:
+         "type": "image",
+         "src": "images/my-image.jpg",
+         "alt": "Description of image"
+
+       For video:
+         "type": "video",
+         "src": "videos/my-video.mp4"
+
+       For YouTube:
+         "type": "youtube",
+         "src": "https://www.youtube.com/embed/VIDEO_ID"
+
+       Put your own files into folders named "images" and "videos"
+       next to this HTML file.
+       ========================================================== */
+
+    const projects = {
+
+      "portfolio-1": {
+        title: "Rubik's Pulse",
+        meta: "Created Created in collaboration with Spin Master",
+        description: "",
+        media: [
+          {
+            type: "youtube",
+            src: "https://www.youtube-nocookie.com/embed/QL-xxsZ8QCw?rel=0"
+          }
+        ]
+      },
+
+      "portfolio-2": {
+        title: "Octoray Transforming Playset",
+        meta: "Created Created in collaboration with Moose Toys",
+        description: "",
+        media: [
+          {
+            type: "youtube",
+            src: "https://www.youtube.com/watch?v=rCi4sXTK3tU"
+          }
+        ]
+      },
+
+      "portfolio-3": {
+        title: "Sky Trails",
+        meta: "Created Created in collaboration with Playmobil",
+        description: "",
+        media: [
+          {
+            type: "youtube",
+            src: "https://www.youtube.com/watch?v=MzNdKHUHxxE"
+          }
+        ]
+      },
+
+      "research-1": {
+        title: "Research Project One",
+        meta: "Research · 2025",
+        description: "Use this space for a longer explanation of your research, methods, findings, references, or process.",
+        media: [
+          {
+            type: "image",
+            src: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=85",
+            alt: "Research Project One"
+          }
+        ]
+      },
+
+      "research-2": {
+        title: "Past Work One",
+        meta: "Exhibition · 2024",
+        description: "Add descriptions, context, collaborators, dates, or other information about this work.",
+        media: [
+          {
+            type: "image",
+            src: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1800&q=85",
+            alt: "Past Work One"
+          }
+        ]
+      },
+
+      "research-3": {
+        title: "Research Project Two",
+        meta: "Study · 2024",
+        description: "Add your research description here.",
+        media: [
+          {
+            type: "image",
+            src: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1800&q=85",
+            alt: "Research Project Two"
+          }
+        ]
+      }
+
+    };
+
+
+    /* ==========================================================
+       NAVIGATION
+       ========================================================== */
+
+    const pages = document.querySelectorAll(".page");
+    const navButtons = document.querySelectorAll(".nav-button");
+    const detailPage = document.getElementById("project-detail");
+
+    function showPage(pageId) {
+      detailPage.classList.remove("active");
+
+      pages.forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+      });
+
+      navButtons.forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.page === pageId
+        );
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    navButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        showPage(button.dataset.page);
+      });
+    });
+
+
+    /* ==========================================================
+       PROJECT DETAILS
+       ========================================================== */
+
+    function openProject(projectId) {
+      const project = projects[projectId];
+
+      if (!project) return;
+
+      pages.forEach(page => page.classList.remove("active"));
+      detailPage.classList.add("active");
+
+      document.getElementById("detail-title").textContent = project.title;
+      document.getElementById("detail-meta").textContent = project.meta;
+      
+
+      const mediaContainer = document.getElementById("detail-media");
+      mediaContainer.innerHTML = "";
+
+      project.media.forEach(item => {
+
+        if (item.type === "image" && item.src) {
+          const image = document.createElement("img");
+          image.src = item.src;
+          image.alt = item.alt || "";
+          mediaContainer.appendChild(image);
+        }
+
+        if (item.type === "video" && item.src) {
+          const video = document.createElement("video");
+          video.src = item.src;
+          video.controls = true;
+          video.playsInline = true;
+
+          if (item.poster) {
+            video.poster = item.poster;
+          }
+
+          mediaContainer.appendChild(video);
+        }
+
+        if (item.type === "youtube" && item.src) {
+          const youtubeIdMatch = item.src.match(
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube(?:-nocookie)?\.com\/embed\/)([A-Za-z0-9_-]{11})/
+          );
+          const youtubeId = youtubeIdMatch ? youtubeIdMatch[1] : "";
+          const videoLink = youtubeId
+            ? "https://www.youtube.com/watch?v=" + youtubeId
+            : item.src;
+
+          if (window.location.protocol === "file:") {
+            const wrapper = document.createElement("div");
+            wrapper.className = "youtube-fallback";
+
+            const link = document.createElement("a");
+            link.href = videoLink;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.setAttribute("aria-label", "Watch " + project.title + " video on YouTube");
+
+            const thumbnail = document.createElement("img");
+            thumbnail.src = youtubeId
+              ? "https://img.youtube.com/vi/" + youtubeId + "/maxresdefault.jpg"
+              : "";
+            thumbnail.alt = project.title + " video thumbnail";
+
+            const play = document.createElement("span");
+            play.className = "youtube-play";
+            play.textContent = "▶";
+
+            const label = document.createElement("span");
+            label.className = "youtube-label";
+            label.textContent = "Watch video";
+
+            link.appendChild(thumbnail);
+            link.appendChild(play);
+            link.appendChild(label);
+            wrapper.appendChild(link);
+            mediaContainer.appendChild(wrapper);
+          } else {
+            const wrapper = document.createElement("div");
+            wrapper.className = "youtube-wrapper";
+
+            const iframe = document.createElement("iframe");
+            iframe.src = youtubeId
+              ? "https://www.youtube-nocookie.com/embed/" + youtubeId + "?rel=0&origin=" + encodeURIComponent(window.location.origin)
+              : item.src;
+            iframe.title = project.title + " video";
+            iframe.loading = "lazy";
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            iframe.referrerPolicy = "strict-origin-when-cross-origin";
+            iframe.allowFullscreen = true;
+
+            wrapper.appendChild(iframe);
+            mediaContainer.appendChild(wrapper);
+          }
+        }
+
+      });
+
+      renderRelatedGrid(projectId);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderRelatedGrid(currentProjectId) {
+      const container=document.getElementById("detail-project-grid"); container.innerHTML="";
+      const prefix=currentProjectId.startsWith("portfolio")?"portfolio":"research";
+      const ids=Object.keys(projects).filter(id=>id.startsWith(prefix)&&id!==currentProjectId);
+      if(!ids.length)return;
+      const h=document.createElement("h2"); h.textContent="More projects"; h.style.cssText="margin:90px 0 30px;font-size:28px;"; container.appendChild(h);
+      const grid=document.createElement("div"); grid.className="project-grid";
+      ids.forEach(id=>{
+        const project=projects[id];
+        const card=document.createElement("button");
+        const image=document.createElement("div");
+        const img=document.createElement("img");
+        const title=document.createElement("span");
+
+        card.className="project-card";
+        card.onclick=()=>openProject(id);
+        image.className="project-image";
+
+        // Reuse the thumbnail from the main grid. This keeps project media
+        // independent from project thumbnails, so video-only projects still
+        // display correctly in "More projects".
+        const sourceCard=document.querySelector('[data-project-id="' + id + '"]');
+        const sourceImage=sourceCard ? sourceCard.querySelector("img") : null;
+
+        if (sourceImage) {
+          img.src=sourceImage.src;
+          img.alt=sourceImage.alt || project.title;
+        }
+
+        title.className="project-overlay-title";
+        title.textContent=project.title;
+        image.append(img,title);
+        card.appendChild(image);
+        grid.appendChild(card);
+      });
+      container.appendChild(grid);
+    }
+
+
+    function closeProject() {
+      showPage("portfolio");
+    }
+  </script>
+
+</body>
+</html>
