@@ -357,15 +357,16 @@
     .image-carousel {
       position: relative;
       width: 100%;
-      background: #e8e8e3;
+      background: #fff;
       overflow: hidden;
     }
 
     .image-carousel-stage {
       position: relative;
       width: 100%;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 16 / 9;
       overflow: hidden;
+      background: #fff;
     }
 
     .image-carousel-stage img {
@@ -373,7 +374,7 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      background: #e8e8e3;
+      background: #fff;
       cursor: pointer;
     }
 
@@ -409,7 +410,7 @@
       justify-content: center;
       gap: 7px;
       padding: 12px 0;
-      background: #e8e8e3;
+      background: #fff;
     }
 
     .carousel-dot {
@@ -482,9 +483,11 @@
     }
 
     .detail-description {
-      max-width: 760px;
-      margin: 45px 0;
+      max-width: 680px;
+      margin: 42px 0 0;
       font-size: 19px;
+      line-height: 1.5;
+      color: var(--text);
     }
 
     footer {
@@ -852,7 +855,7 @@
           <div class="detail-header">
             <h1 id="detail-title"></h1>
             <p id="detail-meta"></p>
-            
+            <div id="detail-description" class="detail-description" hidden></div>
           </div>
           <div id="detail-media" class="detail-media"></div>
         </div>
@@ -1263,7 +1266,15 @@
 
       document.getElementById("detail-title").textContent = project.title;
       document.getElementById("detail-meta").textContent = project.meta;
-      
+
+      const descriptionEl = document.getElementById("detail-description");
+      if (project.description && project.description.trim()) {
+        descriptionEl.textContent = project.description;
+        descriptionEl.hidden = false;
+      } else {
+        descriptionEl.textContent = "";
+        descriptionEl.hidden = true;
+      }
 
       const mediaContainer = document.getElementById("detail-media");
       mediaContainer.innerHTML = "";
